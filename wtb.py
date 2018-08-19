@@ -41,6 +41,7 @@ df['cost'] = df['pos_chg']*df['Close']
 df['market_value'] = df['cum_pos']*df['Close']
 df['cum_cost'] = df['cost'].cumsum()
 df['pct_return'] = df['market_value']/df['cum_cost'] - 1
-df['pct_return_noNA'] = df['pct_return'].dropna()
+df['pct_return'].plot()
+plt.show()
 
 # Write csv
