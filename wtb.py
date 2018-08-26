@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 df = pd.read_csv('BTC.csv')
 
 #--------------------
-#-- Apply strategy --
+#-- Pre-Processing --
 #--------------------
 # need to convert text to date
 # ref code: raw_data['Mycol'] = pd.to_datetime(raw_data['Mycol'], format='%d%b%Y:%H:%M:%S.%f')
@@ -18,6 +18,14 @@ df['Date'] = pd.to_datetime(df['Date'], format='%b %d, %Y')
 df = df.set_index('Date') # need to have df = in the front... do I have to sort it?
 df.sort_index(inplace=True)
 
+#---------------------
+#-- Set Time Window --
+#---------------------
+df = df.loc['20171216':]
+
+#--------------------
+#-- Apply strategy --
+#--------------------
 # (use mod to implement fixed investment strategy)
 # ref code: df['returns'] = np.log(df['closeAsk'] / df['closeAsk'].shift(1))  # 12
 df['cons_date'] = pd.to_datetime("1900-01-01") # create a constant datetime series in pandas
@@ -45,3 +53,4 @@ df['pct_return'].plot()
 plt.show()
 
 # Write csv
+df.to_csv('out.csv')
