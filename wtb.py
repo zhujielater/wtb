@@ -23,21 +23,22 @@ df.sort_index(inplace=True)
 #---------------------
 df = df.loc['20171216':]
 
-#--------------------
-#-- Apply strategy --
-#--------------------
+#----------------------------------
+#-- Strategy 1: Fixed Investment --
+#----------------------------------
+# may rewrite this as a function, input, output
 # (use mod to implement fixed investment strategy)
 # ref code: df['returns'] = np.log(df['closeAsk'] / df['closeAsk'].shift(1))  # 12
 df['cons_date'] = pd.to_datetime("1900-01-01") # create a constant datetime series in pandas
 df['date_diff'] = df['cons_date'] - df.index.to_series() # make it timedeltas
 
-# if it is the 30th day, add position by 1 unit
+# if it is the 30th day, add position by 1 unit usd / current price
 # mod date_diff by 30
-df['pos_chg'] = (df['date_diff'].dt.days%30 == 0)*1 # to improve code, and better document
+df['pos_chg'] = (df['date_diff'].dt.days%30 == 0)*1/df['Close'] # to improve code, and better document
 
-#-----------------------------
-#--- CumSum then Final Plot --
-#-----------------------------
+#--------------------------
+#--- Strategy 1: CumSum  --
+#--------------------------
 # pct_return = market_value / cum_cost - 1
 # market_value = cum_pos * current_price
 # cost = pos * price
@@ -51,6 +52,10 @@ df['cum_cost'] = df['cost'].cumsum()
 df['pct_return'] = df['market_value']/df['cum_cost'] - 1
 df['pct_return'].plot()
 plt.show()
+
+#----------------------
+#--- Merge then Plot --
+#----------------------
 
 # Write csv
 df.to_csv('out.csv')
