@@ -14,7 +14,7 @@ df = pd.read_csv('BTC.csv')
 # need to convert text to date
 # ref code: raw_data['Mycol'] = pd.to_datetime(raw_data['Mycol'], format='%d%b%Y:%H:%M:%S.%f')
 
-df['Date'] = pd.to_datetime(df['Date'], format='%b %d, %Y')
+df['Date'] = pd.to_datetime(df['Date'], format='%d-%b-%y')
 df = df.set_index('Date') # need to have df = in the front... do I have to sort it?
 df.sort_index(inplace=True)
 
